@@ -1,13 +1,15 @@
  <?php 
+ /*Session starten, damit nur berechtigte Personen sehen oder bearbeiten koennen*/
 session_start();
 
-$login_session=$_SESSION['login_admin'];
+if(isset($_SESSION['login_admin'])) {
+
 ?>
 <!DOCTYPE HTML>
 
 <html>
 	<head>
-		<title>Webshop</title>
+		<title>webshop</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -22,7 +24,7 @@ $login_session=$_SESSION['login_admin'];
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img src="images/logo1.png" alt="" /></span>
-						<h1>Webshop-INSY Projekt</h1>
+						<h1>WEBSHOP</h1>
 						<p>Gent Taipi | Joan Rrushi</p>
 					</header>
 
@@ -30,8 +32,9 @@ $login_session=$_SESSION['login_admin'];
 					<nav id="nav">
 						<ul>
 							
-							<li><a href="#first">Produkte einfugen</a></li>
+							<li><a href="#first">Produkte einf&uumlgen</a></li>
 							<li><a href="#second">Produkte editieren</a></li>
+							<li><a href="delKunde.php">Kunde l&ouml;schen</a></li>
 							</ul>
 							<ul class="actions vertical small">						
 							<li><a href="logout.php" class="button special small">Logout</a></li>
@@ -49,7 +52,70 @@ $login_session=$_SESSION['login_admin'];
 								<header class="major">
 									<h2>Produkte einfugen</h2>
 								</header>
-								
+								<!--Erstellung eines Formulars, mit Feld-Namen, wie die Attributten in DB -->
+								<form action="webshop_a.php" method="post">
+			<table>
+				<tr>
+					<td>Produkt Name</td>
+					<td><input type="text" name="produkt_name" maxlength="50" /></td>
+				</tr>
+				<tr>
+					<td>Kategorie</td>
+					<td><input type="text" name="Kategorie_id" list="kategorie" /></td>
+					<!-- Drop Down Liste fuer Kategorie-->
+						<datalist id="kategorie">
+							<option value="1">Elektronik</option>
+							<option value="2">Haushalt</option>
+							<option value="3">Kleidungen</option>
+							<option value="4">B&uuml;cher</option>
+							
+						</datalist>
+				</tr>
+				<tr>
+					<td>Merkmale</td>
+					<td><textarea name="merkmale" /></textarea></td>
+				</tr>
+				<tr>
+					<td>Gewicht</td>
+					<td><input type="text" name="gewicht" maxlength="50" /></td>
+				</tr>
+				<tr>
+					<td>Preis</td>
+					<td><input type="text" name="preis" maxlength="50" /></td>
+				</tr>
+				<tr>
+					<!-- Reset Button-->
+					<td><button name="Reset" type="reset">Reset</button></td>
+					<!-- Send Button-->
+					<td><button name="Send" type="submit">Anlegen</button></td>
+				</tr>
+			</table>
+			<?php 
+			/*Isset-Ueberprueft, ob eine Variable NULL ist oder nicht*/
+			if(isset($_POST["Send"])){
+				/*Verbindung mit der DB*/
+				$pdo = new PDO('mysql:host=localhost;port=3306;dbname=webshop', 'root', '');
+				/*Werte in die Variable speichern*/
+				$name = $_POST["produkt_name"];
+				$kateg = $_POST["Kategorie_id"];
+				$merkmale = $_POST["merkmale"];
+				$gewicht = $_POST["gewicht"];
+				$preis = $_POST["preis"];
+				
+				/*Insert Statement*/
+				$insert = "INSERT INTO produkt (Produkt_Name, Merkmale, Gewicht, Preis, Kategorie_id)
+							VALUES('".$name."','".$merkmale."','".$gewicht."','".$preis."','".$kateg."')";
+				/*Durchfuehrung von Insert-Statement*/
+				$result = $pdo->query($insert);
+				/*Pruefen, ob die Datensaetze angelegt sind*/
+				if($result)
+					echo "<br />Das Produkt wurde erfolgreich angelegt!";
+			
+				else
+					echo "Das Produkt wurde nicht angelegt!<br />";
+										}
+			?>
+		</form>
 									
 							</section>
 
@@ -57,8 +123,61 @@ $login_session=$_SESSION['login_admin'];
 							<section id="second" class="main special">
 								<header class="major">
 									<h2>Produkte editieren</h2>
-								</header>
-								
+									
+								<table class="alt">
+											
+												<thead>
+													<tr>
+														<th>ID</th>
+														<th>Produkt_Name</th>
+														<th>Mekmale</th>
+														<th>Gewicht</th>
+														<th>Preis</th>
+														<th>Kategorie-Name</th>
+														<th>Edit</th>
+														<th>Delete</th>
+														
+													</tr>
+												</thead>
+												<tbody>
+													<?php
+		
+			$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
+			/*Select Statement*/
+			$select = "SELECT idProdukt, Produkt_Name, Merkmale, Preis, Gewicht, Kategorie_Name FROM vprodukt ORDER BY idProdukt";
+			/*Prepare Statement aus Sicherheit-Gruende*/
+			$sth = $pdo->prepare($select);
+			/*Durchfuehrung von Select-Statement*/
+			$sth->execute();
+			/*Die Ergebnisse werden aufgelistet*/
+			$result = $sth->fetchAll(PDO::FETCH_ASSOC);
+			
+				//echo "<table>";	
+			foreach($result as $row) {
+			
+				echo "<tr>";
+				echo "<td>" . $row["idProdukt"] . "</td>";
+				echo "<td>"	. $row["Produkt_Name"] . "</td>";
+				echo "<td>" . $row["Merkmale"] . "</td>";
+				echo "<td>" . $row["Gewicht"] . "</td>";
+				echo "<td>" . $row["Preis"] . "</td>";
+				echo "<td>" . $row["Kategorie_Name"] . "</td>";
+				/*Hier werden zwei Links fuer editieren und loeschen von Datensaetze*/
+				echo "<td><a href=editProdukt.php?id=" . $row["idProdukt"] . ">Edit</a></td>";
+				echo "<td><a href=deleteProdukt.php?id=" . $row["idProdukt"] .">Delete</a></td>";
+			
+
+				echo "</tr>";
+			
+			}
+			
+			//echo "</table>"
+		?>
+			</tbody>
+		</table>
+
+			
+				
 									
 							</section>
 
@@ -69,8 +188,8 @@ $login_session=$_SESSION['login_admin'];
 				<!-- Footer -->
 					<footer id="footer">
 						<section>
-							<h2>Webshop</h2>
-							<p>Unsere Webshop hat verschiedene Produkte in verschiedene Kategorien.</p>
+							<h2>webshop</h2>
+							<p>Unsere webshop hat verschiedene Produkte in verschiedene Kategorien.</p>
 							<ul class="actions">
 								<li><a href="index.php" class="button">Mehr </a></li>
 							</ul>
@@ -92,3 +211,10 @@ $login_session=$_SESSION['login_admin'];
 
 	</body>
 </html>
+
+<?php		
+} else {
+	/*Wenn man nicht eigeloggt ist, kann er nur "login_a.php" Seite sehen*/
+	header("Location: login_a.php");
+}
+?>
