@@ -1,7 +1,8 @@
  <?php 
 session_start();
 
-$login_session=$_SESSION['login_kunde'];
+if(isset($_SESSION['login_kunde'])) {
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -37,6 +38,62 @@ $login_session=$_SESSION['login_kunde'];
 								<span class="image main"><img src="images/webshop.jpg" alt="" /></span>
 							</section>
 						<h2> Produkte bestellen </h2>
+							<div class="table-wrapper">
+							
+										
+											<table class="alt">
+											
+												<thead>
+													<tr>
+														<th>ID</th>
+														<th>Produkt_Name</th>
+														<th>Mekmale</th>
+														<th>Gewicht</th>
+														<th>Preis</th>
+														<th>Kategorie-Name</th>
+														<th>Bestellen</th>
+														
+													</tr>
+												</thead>
+												<tbody>
+													<?php
+			/*Verbindung mit der DB*/
+			$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
+			/*Select Statement*/
+			$select = "SELECT idProdukt, Produkt_Name, Merkmale, Preis, Gewicht, Kategorie_Name FROM vprodukt ORDER BY idProdukt";
+			/*Prepare Statement aus Sicherheit-Gruende*/
+			$sth = $pdo->prepare($select);
+			/*Durchfuehrung von Select-Statement*/
+			$sth->execute();
+			/*Die Ergebnisse werden als ASSOC-Array aufgelistet*/
+			$result = $sth->fetchAll(PDO::FETCH_ASSOC);
+			
+				//echo "<table>";	
+			foreach($result as $row) {
+			
+				echo "<tr>";
+				echo "<td>" . $row["idProdukt"] . "</td>";
+				echo "<td>"	. $row["Produkt_Name"] . "</td>";
+				echo "<td>" . $row["Merkmale"] . "</td>";
+				echo "<td>" . $row["Gewicht"] . "</td>";
+				echo "<td>" . $row["Preis"] . "</td>";
+				echo "<td>" . $row["Kategorie_Name"] . "</td>";
+				
+				
+			
+
+				echo "</tr>";
+			
+			}
+			
+			//echo "</table>"
+		?>
+			</tbody>
+		</table>
+						
+			
+					
+
 					</div>
 
 				<!-- Footer -->
@@ -65,3 +122,9 @@ $login_session=$_SESSION['login_kunde'];
 
 	</body>
 </html>
+<?php		
+} else {
+	/*Wenn man nicht eigeloggt ist, kann er nur "login_a.php" Seite sehen*/
+	header("Location: login_k.php");
+}
+?>
