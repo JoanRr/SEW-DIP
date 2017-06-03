@@ -31,6 +31,7 @@
 							<section id="content" class="main">
 								<span class="image main"><img src="images/webshop.jpg" alt="" /></span>
 								<h2>Administrator Registrieren</h2>
+								<!--Erstellung eines Formulars, mit Feld-Namen, wie die Attributten in DB -->
 								<form action="administrator_r.php" method="post">
 					Vorname: <br> <input type="text" size="40" maxlength="250" name="vorname"><br><br>
 					Nachname: <br> <input type="text" size="40" maxlength="250" name="nachname"><br><br>
@@ -39,7 +40,9 @@
 					Telefonnummer: <br> <input type="text" size="40" maxlength="250" name="telefonnummer"><br><br>
 					Benutzername: <br> <input type="text" size="40" maxlength="250" name="benutzername"><br><br>
 					Passwort:<br> <input type="password" size="40"  maxlength="250" name="passwort"><br>
+					<!-- Erstellung von Send-Button -->
 					<button name="Send" type="submit">Abschicken</button>
+					<!-- Erstellung von Reset-Button -->
 					<button name="Reset" type="reset">Reset</button>
 					
 				</form>
