@@ -39,11 +39,15 @@
 					Telefonnummer: <br> <input type="text" size="40" maxlength="250" name="telefonnummer"><br><br>
 					Benutzername: <br> <input type="text" size="40" maxlength="250" name="benutzername"><br><br>
 					Passwort:<br> <input type="password" size="40"  maxlength="250" name="passwort"><br>
-					<button name="Send" type="submit">Submit</button>
+					<button name="Send" type="submit">Abschicken</button>
+					<button name="Reset" type="reset">Reset</button>
+					
 				</form>
 			<?php 
 			if(isset($_POST["Send"])){
-				$pdo = new PDO('mysql:host=localhost;port=3306;dbname=mydb', 'root', '');
+				/*Erstellung der Verbindung mit der Datenbank (webshop), Benutzername(root) und ein leeren Passwort*/
+				$pdo = new PDO('mysql:host=localhost;port=3306;dbname=webshop', 'root', '');
+				/*Die Eingaben von Werten sind auf bestimmte Variablen gespeichert.*/
 				$vorname = $_POST["vorname"];
 				$nachname = $_POST["nachname"];
 				$email = $_POST["email"];
@@ -51,11 +55,12 @@
 				$telefonnummer = $_POST["telefonnummer"];
 				$benutzername = $_POST["benutzername"];
 				$passwort = $_POST["passwort"];
-			
+				/*Insert Statement*/
 				$insert = "INSERT INTO administrator (Vorname, Nachname, Email, Geburtstag, Telefonnummer, benutzername, passwort)
 							VALUES('".$vorname."','".$nachname."','".$email."','".$geburtstag."','".$telefonnummer."','".$benutzername."','".$passwort."')";
+				/*Durchfuehrung des Befehls*/
 				$result = $pdo->query($insert);
-			
+				/*Es wird ueberprueft, ob die Datensaetze in der DB gespeichert sind oder nicht.*/
 				if($result)
 					echo "<br />Der User wurde erfolgreich angelegt!";
 			
