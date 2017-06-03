@@ -17,7 +17,7 @@
 				<!-- Header -->
 					<header id="header" class="alt">
 						<span class="logo"><img src="images/logo1.png" alt="" /></span>
-						<h1>Webshop-INSY Projekt</h1>
+						<h1>WEBSHOP</h1>
 						<p>Gent Taipi | Joan Rrushi</p>
 					</header>
 
@@ -68,7 +68,7 @@
 								
 									<footer class="major">
 									<ul class="actions">
-										<li><a href="index.php" class="button special">Einlogen</a></li>
+										<li><a href="login_k.php" class="button special">Einlogen</a></li>
 										<li><a href="kunde_r.php" class="button">Registrieren</a></li>
 									</ul>
 								</footer>
@@ -82,8 +82,8 @@
 								
 									<footer class="major">
 									<ul class="actions">
-										<li><a href="index.php" class="button special">Einlogen</a></li>
-										<li><a href="index.php" class="button">Registrieren</a></li>
+										<li><a href="login_a.php" class="button special">Einlogen</a></li>
+										<li><a href="administrator_r.php" class="button">Registrieren</a></li>
 									</ul>	
 								</footer>
 							</section>
@@ -101,24 +101,7 @@
 								<li><a href="index.php" class="button">Mehr </a></li>
 							</ul>
 						</section>
-						<section>
-							<h2>Etiam feugiat</h2>
-							<dl class="alt">
-								<dt>Address</dt>
-								<dd>1234 Somewhere Road &bull; Nashville, TN 00000 &bull; USA</dd>
-								<dt>Phone</dt>
-								<dd>(000) 000-0000 x 0000</dd>
-								<dt>Email</dt>
-								<dd><a href="#">information@untitled.tld</a></dd>
-							</dl>
-							<ul class="icons">
-								<li><a href="#" class="icon fa-twitter alt"><span class="label">Twitter</span></a></li>
-								<li><a href="#" class="icon fa-facebook alt"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon fa-instagram alt"><span class="label">Instagram</span></a></li>
-								<li><a href="#" class="icon fa-github alt"><span class="label">GitHub</span></a></li>
-								<li><a href="#" class="icon fa-dribbble alt"><span class="label">Dribbble</span></a></li>
-							</ul>
-						</section>
+
 						<p class="copyright">&copy; Gent Taipi | Joan Rrushi </p>
 					</footer>
 
