@@ -31,7 +31,6 @@
 							<section id="content" class="main">
 								<span class="image main"><img src="images/webshop.jpg" alt="" /></span>
 								<h2>Kunde Registrieren</h2>
-								<!--Erstellung eines Formulars, mit Feld-Namen, wie die Attributten in DB -->
 								<form action="kunde_r.php" method="post">
 					Vorname: <br> <input type="text" size="40" maxlength="250" name="vorname"><br><br>
 					Nachname: <br> <input type="text" size="40" maxlength="250" name="nachname"><br><br>
@@ -45,17 +44,13 @@
 					Benutzername: <br> <input type="text" size="40" maxlength="250" name="benutzername"><br><br>
 					Passwort:<br> <input type="password" size="40"  maxlength="250" name="passwort"><br>
 
-					<!-- Erstellung von Send-Button -->
+
 					<button name="Send" type="submit">Abschicken</button>
-					<!-- Erstellung von Reset-Button -->
 					<button name="reset" type="reset">Reset</button>
 				</form>
 			<?php 
-			/*Funktionalitaet des Send-Buttons*/
 			if(isset($_POST["Send"])){
-				/*Verbindung mit der DB*/
 				$pdo = new PDO('mysql:host=localhost;port=3306;dbname=webshop', 'root', '');
-				/*Werte in die Variable speichern*/
 				$vorname = $_POST["vorname"];
 				$nachname = $_POST["nachname"];
 				$email = $_POST["email"];
@@ -68,12 +63,11 @@
 				$benutzername = $_POST["benutzername"];
 				$passwort = $_POST["passwort"];
 				
-				/*Insert Statement*/
+			
 				$insert = "INSERT INTO kunde (Vorname, Nachname, Email, Geburtstag, HausNr, Land, Stadt, Strasse, Telefonnummer, benutzername, passwort)
 							VALUES('".$vorname."','".$nachname."','".$email."','".$geburtstag."','".$hausnr."','".$land."','".$stadt."','".$strasse."','".$telefonnummer."','".$benutzername."','".$passwort."')";
-				/*Durchfuehrung von Insert-Statement*/
 				$result = $pdo->query($insert);
-				/*Pruefen, ob die Datensaetze angelegt sind*/
+			
 				if($result)
 					echo "<br />Der User wurde erfolgreich angelegt!";
 			

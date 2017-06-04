@@ -1,5 +1,4 @@
  <?php 
- /*Session starten, damit nur berechtigte Personen sehen oder bearbeiten koennen*/
 session_start();
 
 if(isset($_SESSION['login_admin'])) {
@@ -52,7 +51,6 @@ if(isset($_SESSION['login_admin'])) {
 								<header class="major">
 									<h2>Produkte einfugen</h2>
 								</header>
-								<!--Erstellung eines Formulars, mit Feld-Namen, wie die Attributten in DB -->
 								<form action="webshop_a.php" method="post">
 			<table>
 				<tr>
@@ -62,7 +60,6 @@ if(isset($_SESSION['login_admin'])) {
 				<tr>
 					<td>Kategorie</td>
 					<td><input type="text" name="Kategorie_id" list="kategorie" /></td>
-					<!-- Drop Down Liste fuer Kategorie-->
 						<datalist id="kategorie">
 							<option value="1">Elektronik</option>
 							<option value="2">Haushalt</option>
@@ -70,6 +67,8 @@ if(isset($_SESSION['login_admin'])) {
 							<option value="4">B&uuml;cher</option>
 							
 						</datalist>
+						
+						
 				</tr>
 				<tr>
 					<td>Merkmale</td>
@@ -84,30 +83,24 @@ if(isset($_SESSION['login_admin'])) {
 					<td><input type="text" name="preis" maxlength="50" /></td>
 				</tr>
 				<tr>
-					<!-- Reset Button-->
 					<td><button name="Reset" type="reset">Reset</button></td>
-					<!-- Send Button-->
 					<td><button name="Send" type="submit">Anlegen</button></td>
 				</tr>
 			</table>
 			<?php 
-			/*Isset-Ueberprueft, ob eine Variable NULL ist oder nicht*/
 			if(isset($_POST["Send"])){
-				/*Verbindung mit der DB*/
 				$pdo = new PDO('mysql:host=localhost;port=3306;dbname=webshop', 'root', '');
-				/*Werte in die Variable speichern*/
 				$name = $_POST["produkt_name"];
 				$kateg = $_POST["Kategorie_id"];
 				$merkmale = $_POST["merkmale"];
 				$gewicht = $_POST["gewicht"];
 				$preis = $_POST["preis"];
 				
-				/*Insert Statement*/
+				
 				$insert = "INSERT INTO produkt (Produkt_Name, Merkmale, Gewicht, Preis, Kategorie_id)
 							VALUES('".$name."','".$merkmale."','".$gewicht."','".$preis."','".$kateg."')";
-				/*Durchfuehrung von Insert-Statement*/
 				$result = $pdo->query($insert);
-				/*Pruefen, ob die Datensaetze angelegt sind*/
+				
 				if($result)
 					echo "<br />Das Produkt wurde erfolgreich angelegt!";
 			
@@ -143,13 +136,12 @@ if(isset($_SESSION['login_admin'])) {
 													<?php
 		
 			$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
-			/*Select Statement*/
+			
 			$select = "SELECT idProdukt, Produkt_Name, Merkmale, Preis, Gewicht, Kategorie_Name FROM vprodukt ORDER BY idProdukt";
-			/*Prepare Statement aus Sicherheit-Gruende*/
+				
 			$sth = $pdo->prepare($select);
-			/*Durchfuehrung von Select-Statement*/
 			$sth->execute();
-			/*Die Ergebnisse werden aufgelistet*/
+				
 			$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 			
 				//echo "<table>";	
@@ -162,7 +154,6 @@ if(isset($_SESSION['login_admin'])) {
 				echo "<td>" . $row["Gewicht"] . "</td>";
 				echo "<td>" . $row["Preis"] . "</td>";
 				echo "<td>" . $row["Kategorie_Name"] . "</td>";
-				/*Hier werden zwei Links fuer editieren und loeschen von Datensaetze*/
 				echo "<td><a href=editProdukt.php?id=" . $row["idProdukt"] . ">Edit</a></td>";
 				echo "<td><a href=deleteProdukt.php?id=" . $row["idProdukt"] .">Delete</a></td>";
 			
@@ -214,7 +205,6 @@ if(isset($_SESSION['login_admin'])) {
 
 <?php		
 } else {
-	/*Wenn man nicht eigeloggt ist, kann er nur "login_a.php" Seite sehen*/
 	header("Location: login_a.php");
 }
 ?>

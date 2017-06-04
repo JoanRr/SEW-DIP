@@ -30,17 +30,14 @@
 
 			if(isset($_GET["id"])) {
 				$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
-				
-				/*Select Statement*/
+
 				$sql = "SELECT idProdukt, Produkt_Name, Merkmale, Gewicht, Preis FROM produkt WHERE idProdukt = " . $_GET["id"];
-				/*Durchfuehrung von Select-Statement*/
 				$result = $pdo->query($sql);
-				/*Die Ergebnisse werden aufgelistet*/
 				$row = $result->fetch();
 			}
 
 		?>
-		<!-- Formular erstellen-->
+
 		<form action="editProdukt.php" method="post">
 			<table>
 				<tr>
@@ -60,34 +57,32 @@
 					<td><input type="text" name="Preis" value="<?php echo $row["Preis"]; ?>" maxlength="50" /></td>
 				</tr>
 			</table>
-			<!-- Werte von dieses Buttons werden nicht angezeigt. -->
+
 			<input type="hidden" name="idProdukt" value="<?php echo $row["idProdukt"]; ?>" />
-			<!-- Erstellung von Send-Button -->
 			<button name="Send" type="submit">&Auml;ndern</button>
 			
 
 		</form>
 
 		<?php
-			/*Isset-Ueberprueft, ob eine Variable NULL ist oder nicht*/
+
 			if(isset($_POST["Send"])) {
-				/*Verbindung zur Datenbank*/
+
 				$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
-				/*Update-Statement*/
+
 				$sql = "UPDATE produkt SET Produkt_Name = '" . $_POST["Produkt_Name"]
 					. "', Merkmale = '" . $_POST["Merkmale"]
 					. "', Gewicht = " . $_POST["Gewicht"]
 					. ", Preis = " . $_POST["Preis"]
 
 					." WHERE idProdukt=" . $_POST["idProdukt"] ;
-				/*Werden die SQL-Befehle angezeigt*/
+
 				echo $sql;
-				/*PDO und SQL-Befehl werden durchgefuehrt*/
 				$result = $pdo->query($sql);
-				/*Wenn die SQL-Befehl erfolgreich ausgefuehr ist, dann wird die webshop_a-Seite angezeigt.*/
+
 				if($result)
 					header("location:webshop_a.php");
-				/*Wenn etwas nicht funktioniert, sagt es "Das Produkt wurde nicht ge&auml;ndert!"*/
+
 				else
 					echo "Das Produkt wurde nicht ge&auml;ndert!<br />" . $sql;
 

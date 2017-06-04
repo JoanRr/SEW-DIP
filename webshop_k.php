@@ -57,15 +57,14 @@ if(isset($_SESSION['login_kunde'])) {
 												</thead>
 												<tbody>
 													<?php
-			/*Verbindung mit der DB*/
+		
 			$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
-			/*Select Statement*/
+			
 			$select = "SELECT idProdukt, Produkt_Name, Merkmale, Preis, Gewicht, Kategorie_Name FROM vprodukt ORDER BY idProdukt";
-			/*Prepare Statement aus Sicherheit-Gruende*/
+				
 			$sth = $pdo->prepare($select);
-			/*Durchfuehrung von Select-Statement*/
 			$sth->execute();
-			/*Die Ergebnisse werden als ASSOC-Array aufgelistet*/
+				
 			$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 			
 				//echo "<table>";	
@@ -124,7 +123,6 @@ if(isset($_SESSION['login_kunde'])) {
 </html>
 <?php		
 } else {
-	/*Wenn man nicht eigeloggt ist, kann er nur "login_a.php" Seite sehen*/
 	header("Location: login_k.php");
 }
 ?>

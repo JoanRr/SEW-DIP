@@ -26,7 +26,7 @@
 							<section id="content" class="main">
 								<span class="image main"><img src="images/webshop.jpg" alt="" /></span>
 								<h2>Kunde l&ouml;schen</h2>
-								<!-- Hier wird eine Tabelle erzeugt-->
+								
 								<table class="alt">
 											
 												<thead>
@@ -46,15 +46,14 @@
 												</thead>
 												<tbody>
 													<?php
-			/*Verbindung zur Datenbank*/
+		
 			$pdo = new PDO('mysql:host=localhost;dbname=webshop', 'root', '');
-			/*SELECT-Statement*/
+			
 			$select = "SELECT idKunde, Vorname, Nachname, Email, Geburtstag, HausNr, Land, Stadt, Strasse, Telefonnummer, benutzername, passwort FROM kunde ORDER BY idKunde";
-			/*PDO und SQL-Befehl werden durchgefuehrt*/
+				
 			$sth = $pdo->prepare($select);
-			/*Durchfuehrung von Select-Statement*/
 			$sth->execute();
-			/*Die Ergebnisse werden aufgelistet*/
+				
 			$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 			
 			//echo "<table>";						
@@ -70,7 +69,6 @@
 				echo "<td>" . $row["Land"] . "</td>";
 				echo "<td>"	. $row["Stadt"] . "</td>";
 				echo "<td>" . $row["Strasse"] . "</td>";
-				/*Hier wird ein Link fuer loeschen von Datensaetze*/
 				echo "<td><a href=deleteKunde.php?id=" . $row["idKunde"] .">Delete</a></td>";
 				
 			
